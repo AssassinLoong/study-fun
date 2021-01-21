@@ -1,0 +1,64 @@
+body,
+p,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+div,
+ul,
+li,
+ol,
+dl,
+dd,
+dt,
+nav,
+main,
+title,
+aside,
+footer,
+section {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body,
+html{
+  height: 100%;
+}
+
+ul,
+li {
+  list-style: none;
+}
+
+/* 浮动 */
+.clear {
+  zoom: 1;
+}
+
+.clear:after {
+  content: '';
+  clear: both;
+  display: table;
+}
+
+.fl {
+  float: left;
+}
+
+.fr {
+  float: right;
+}
+
+.fade-enter,
+.fade-leave-to {
+  opacity: 0;
+}
+
+.fade-enter-active,
+.fade-leave-active {
+  transition: opacity 0.4s ease-in-out;
+}
