@@ -15,7 +15,6 @@ export default {
     let height = this.$refs.gameParent.clientHeight;
     // const height = (750 / 7.5 / 100) * window.innerWidth;
     let size = Math.min(width, height);
-    console.log(this.$refs.gameParent, "---");
     game.launch({ parent: this.$refs.gameParent, width: size, height: size });
   },
   methods: {},

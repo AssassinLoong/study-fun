@@ -1,8 +1,47 @@
 {
-  "filename": "darkwing_crazy",
-  "frame": { "x": 565, "y": 361, "w": 53, "h": 49 },
-  "rotated": false,
-  "trimmed": false,
-  "spriteSourceSize": { "x": 0, "y": 0, "w": 53, "h": 49 },
-  "sourceSize": { "w": 53, "h": 49 }
+  "textures": [
+    {
+      "image": "dogs.png",
+      "format": "RGBA8888",
+      "size": {
+        "w": 960,
+        "h": 240
+      },
+      "scale": 0.2,
+      "frames": [
+        {
+          "filename": "run_00",
+          "frame": { "x": 0, "y": 0, "w": 240, "h": 240 },
+          "rotated": false,
+          "trimmed": true,
+          "spriteSourceSize": { "x": 0, "y": 0, "w": 240, "h": 240 },
+          "sourceSize": { "w": 240, "h": 240 }
+        },
+        {
+          "filename": "run_01",
+          "frame": { "x": 240, "y": 0, "w": 240, "h": 240 },
+          "rotated": false,
+          "trimmed": true,
+          "spriteSourceSize": { "x": 0, "y": 0, "w": 240, "h": 240 },
+          "sourceSize": { "w": 240, "h": 240 }
+        },
+        {
+          "filename": "run_02",
+          "frame": { "x": 480, "y": 0, "w": 240, "h": 240 },
+          "rotated": false,
+          "trimmed": true,
+          "spriteSourceSize": { "x": 0, "y": 0, "w": 240, "h": 240 },
+          "sourceSize": { "w": 240, "h": 240 }
+        },
+        {
+          "filename": "run_03",
+          "frame": { "x": 720, "y": 0, "w": 240, "h": 240 },
+          "rotated": false,
+          "trimmed": true,
+          "spriteSourceSize": { "x": 0, "y": 0, "w": 240, "h": 240 },
+          "sourceSize": { "w": 240, "h": 240 }
+        }
+      ]
+    }
+  ]
 }

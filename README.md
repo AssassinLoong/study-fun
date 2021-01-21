@@ -1,24 +1,12 @@
-# study-fun
+# study-fun（里面是一些有趣的东西）
 
-## Project setup
-```
-npm install
-```
+**包含有：**
 
-### Compiles and hot-reloads for development
-```
-npm run serve
-```
-
-### Compiles and minifies for production
-```
-npm run build
-```
-
-### Lints and fixes files
-```
-npm run lint
-```
-
-### Customize configuration
-See [Configuration Reference](https://cli.vuejs.org/config/).
+- 旋转正方体
+- 书本翻页动效
+- 页面滚到
+- 砸金蛋游戏
+- 前端导入 excel
+- svg 边框动效
+- css 实现滚动对齐
+- Phaser 学习

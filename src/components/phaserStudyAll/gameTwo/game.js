@@ -1,5 +1,6 @@
 const Phaser = window.Phaser;
 import dog from "@/assets/images/dog.png";
+import configJson from "./game.json";
 
 let canvasW, canvasH;
 
@@ -8,10 +9,25 @@ class MainScene extends Phaser.Scene {
     super({ key: "Main" });
   }
   preload() {
-    this.load.atlas("dogs", dog);
+    this.load.atlas("dogs", dog, configJson);
   }
-  create() {}
-  update() {}
+  create() {
+    this.anims.create({
+      key: "run",
+      frames: this.anims.generateFrameNames("dogs", { prefix: "run_", end: 4, zeroPad: 2 }),
+      frameRate: 4,
+      repeat: -1,
+      yoyo: true
+    });
+
+    this.add
+      .sprite(calcVW(canvasW / 2), calcVW(canvasW / 2), "dogs")
+      .play("run")
+      .setScale(scaleVW(240));
+  }
+  update() {
+    // this.add.sprite(400, 300).play("twinkle");
+  }
 }
 
 // const width = 750;
