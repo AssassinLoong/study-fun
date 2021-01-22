@@ -1,6 +1,5 @@
 <template>
-  <div class="contain"
-       ref="gameParent"></div>
+  <div class="contain" ref="gameParent"></div>
 </template>
 
 <script>
@@ -11,11 +10,13 @@ export default {
     return {};
   },
   mounted() {
-    let width = this.$refs.gameParent.clientWidth;
-    let height = this.$refs.gameParent.clientHeight;
-    // const height = (750 / 7.5 / 100) * window.innerWidth;
-    let size = Math.min(width, height);
-    game.launch({ parent: this.$refs.gameParent, width: size, height: size });
+    this.$nextTick(() => {
+      let width = this.$refs.gameParent.clientWidth;
+      let height = this.$refs.gameParent.clientHeight;
+      // const height = (750 / 7.5 / 100) * window.innerWidth;
+      let size = Math.min(width, height);
+      game.launch({ parent: this.$refs.gameParent, width: size, height: size });
+    });
   },
   methods: {},
   beforeDestroy() {

@@ -1,11 +1,8 @@
 <template>
-  <div class="phaser-point"
-       ref="phaser_point">
+  <div class="phaser-point" ref="phaser_point">
     <div class="aside">
-      <button class="title-link"
-              v-for="(item, index) in routerList"
-              :key="index"
-              @click="(e)=>turnToLink(e, item)">{{ item.mate.label }}
+      <button class="title-link" v-for="(item, index) in routerList" :key="index"
+        @click="(e)=>turnToLink(e, item)">{{ item.mate.label }}
       </button>
     </div>
     <div class="main">

@@ -1,5 +1,6 @@
 const Phaser = window.Phaser;
 import dog from "@/assets/images/dog.png";
+import ball from "@/assets/images/ball.png";
 import configJson from "./game.json";
 
 let canvasW, canvasH;
@@ -10,6 +11,7 @@ class MainScene extends Phaser.Scene {
   }
   preload() {
     this.load.atlas("dogs", dog, configJson);
+    this.load.image("ball", ball);
   }
   create() {
     this.anims.create({
@@ -20,18 +22,22 @@ class MainScene extends Phaser.Scene {
       yoyo: true
     });
 
-    this.add
-      .sprite(calcVW(canvasW / 2), calcVW(canvasW / 2), "dogs")
+    var staticBlock = this.add
+      .sprite(calcVW(canvasW / 2 - 150), calcVW(canvasW / 2 - 150), "dogs")
       .play("run")
-      .setScale(scaleVW(240));
-  }
-  update() {
-    // this.add.sprite(400, 300).play("twinkle");
-  }
-}
+      .setScale(scaleVW(150, 150 / 240));
 
-// const width = 750;
-// const height = width / (window.innerWidth / window.innerHeight);
+    var block = this.add.tileSprite(100, 100, 64 * 1, 64 * 1, "ball").setScale(scaleVW(64));
+    this.physics.add.existing(block, false);
+    block.body.setVelocity(180, 180);
+    block.body.setBounce(1, 1);
+    block.body.setCollideWorldBounds(true);
+
+    this.physics.add.existing(staticBlock, true);
+    this.physics.add.collider(block, staticBlock);
+  }
+  update() {}
+}
 
 let gameIns = null;
 
@@ -44,6 +50,13 @@ const game = {
       canvasStyle: `width:${width}px;height:${height}px`,
       width,
       height,
+      physics: {
+        default: "arcade",
+        arcade: {
+          debug: true,
+          gravity: { y: 200 }
+        }
+      },
       scene: [MainScene],
       audio: {
         // web audio 的部分对安卓 5.0 设备不兼容
@@ -64,17 +77,15 @@ function color(i) {
 }
 
 function calcVW(number) {
-  // return (number / 750) * window.innerWidth;
-  return (number / 750) * canvasW;
+  return (number / 750) * window.innerWidth;
+  // return (number / 750) * canvasW;
 }
 
 function scaleVW(number, scale = 1) {
   let Imgpercent;
-  let size = number;
-  size = number * scale;
-  Imgpercent = size / 750;
+  Imgpercent = (canvasW / 750) * scale;
 
-  return Imgpercent;
+  return Math.min(Imgpercent, 1);
 }
 
 export default game;
