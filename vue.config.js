@@ -21,5 +21,13 @@ module.exports = {
   devServer: {
     open: true,
     hot: false
+  },
+  css: {
+    loaderOptions: {
+      scss: {
+        // sass-loader v8.0.0+, use `data:` for elder version
+        prependData: `@import "~@/assets/css/vw.scss";`
+      }
+    }
   }
 };

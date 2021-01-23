@@ -89,6 +89,14 @@ export const titleRouter = [
     },
     redirect: "/phaserStudy/gameOne",
     children: phaserChild
+  },
+  {
+    path: "/swiperStudy",
+    name: "SwiperStudy",
+    component: () => import("../views/swiperStudy.vue"),
+    mate: {
+      label: "swiper轮播图"
+    }
   }
 ];
 
