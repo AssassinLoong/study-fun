@@ -23,6 +23,25 @@ export const phaserChild = [
   }
 ];
 
+export const CssCollectionChild = [
+  {
+    path: "scrollAlign",
+    name: "ScrollAlign",
+    component: () => import("../views/CssCollection/scrollAlignCss.vue"),
+    mate: {
+      label: "css滚动对齐"
+    }
+  },
+  {
+    path: "borderAnims",
+    name: "BorderAnims",
+    component: () => import("../views/CssCollection/borderAnims.vue"),
+    mate: {
+      label: "边框 制作/动画"
+    }
+  }
+];
+
 export const titleRouter = [
   {
     path: "/perspective",
@@ -73,12 +92,14 @@ export const titleRouter = [
     }
   },
   {
-    path: "/scrollAlign",
-    name: "ScrollAlign",
-    component: () => import("../views/scrollAlignCss.vue"),
+    path: "/CssCollection",
+    name: "CssCollection",
+    component: () => import("../views/CssCollection.vue"),
     mate: {
-      label: "css滚动对齐"
-    }
+      label: "css合集"
+    },
+    redirect: "/CssCollection/scrollAlign",
+    children: CssCollectionChild
   },
   {
     path: "/phaserStudy",

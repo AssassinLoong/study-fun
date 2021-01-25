@@ -1,35 +1,33 @@
 <template>
-  <div class="phaser-point"
-       ref="phaser_point">
-    <div class="aside">
-      <button class="title-link"
-              v-for="(item, index) in routerList"
-              :key="index"
-              @click="(e)=>turnToLink(e, item)">{{ item.mate.label }}
-      </button>
-    </div>
-    <div class="main">
-      <router-view />
+  <div class="css-point">
+    <div class="go-back"
+         @click="goBack">返回首页</div>
+    <div class="body">
+      <div class="aside">
+        <button class="title-link"
+                v-for="(item, index) in routerList"
+                :key="index"
+                @click="(e)=>turnToLink(e, item)">{{ item.mate.label }}
+        </button>
+      </div>
+      <div class="main">
+        <router-view />
+      </div>
     </div>
   </div>
 </template>
 
 <script>
-import { phaserChild } from "@/router";
+import { CssCollectionChild } from "@/router";
 
 export default {
   components: {},
   data() {
     return {
-      routerList: phaserChild
+      routerList: CssCollectionChild
     };
   },
-  mounted() {
-    let winw = window.innerWidth;
-    let winh = window.innerHeight;
-    let isColumn = winw < winh;
-    isColumn ? (this.$refs.phaser_point.style["flex-direction"] = "column") : (this.$refs.phaser_point.style["flex-direction"] = "");
-  },
+  mounted() {},
   methods: {
     turnToLink(e, data) {
       let button = e.currentTarget;
@@ -52,6 +50,9 @@ export default {
         this.$router.push({ name: data.name });
         console.log(data);
       }, 300);
+    },
+    goBack() {
+      this.$router.push({ name: "Home" });
     }
   }
 };
@@ -60,20 +61,37 @@ export default {
 // 字体
 @import url("https://fonts.googleapis.com/css2?family=Roboto&display=swap");
 
-.phaser-point {
-  display: flex;
-  // flex-direction: column;
+.css-point {
   width: 100%;
   height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+
+  .go-back {
+    display: inline-block;
+    position: relative;
+    color: #f56c6c;
+    padding-top: 20px;
+    font-weight: 600;
+    font-size: 24px;
+    cursor: pointer;
+  }
+  .body {
+    flex: 1;
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+    height: 100%;
+  }
 
   .aside {
-    width: 150px;
+    width: 200px;
     height: auto;
     max-height: 800px;
+    margin-right: 10px;
     text-align: center;
-    // display: flex;
-    // flex-direction: row;
-    // flex-wrap: wrap;
 
     .title-link {
       position: relative;
@@ -99,7 +117,7 @@ export default {
 }
 </style>
 <style lang="scss">
-.phaser-point {
+.css-point {
   .ripple {
     position: absolute;
     border-radius: 50%;

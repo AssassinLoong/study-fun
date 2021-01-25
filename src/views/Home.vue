@@ -10,6 +10,8 @@
 
 <script>
 import { titleRouter } from "@/router";
+import nongli from "@/utils/nongli.js";
+import "@/utils/calendar.js";
 export default {
   name: "Home",
   components: {},
@@ -18,7 +20,10 @@ export default {
       routerList: titleRouter
     };
   },
-  mounted() {},
+  mounted() {
+    let aa = nongli();
+    console.log(aa);
+  },
   methods: {
     turnToLink(e, data) {
       let button = e.currentTarget;

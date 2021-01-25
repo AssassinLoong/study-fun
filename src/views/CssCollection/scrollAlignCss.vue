@@ -1,7 +1,5 @@
 <template>
   <div class="scroll-align-css">
-    <div class="go-back"
-         @click="goBack">返回首页</div>
 
     <div class="tips">css自动对齐 + js生成颜色</div>
 
@@ -24,18 +22,13 @@ export default {
   },
   mounted() {
     this.$nextTick(() => {
-      console.log(this.$refs.element);
       this.$refs.element.map(el => {
         let randomColor = Math.floor(Math.random() * 16777215).toString(16);
         el.style.background = "#" + randomColor;
       });
     });
   },
-  methods: {
-    goBack() {
-      this.$router.push({ name: "Home" });
-    }
-  }
+  methods: {}
 };
 </script>
 <style lang="scss" scoped>

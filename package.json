@@ -48,7 +48,8 @@
     },
     "rules": {
       "no-unused-vars": "off",
-      "no-prototype-builtins": "off"
+      "no-prototype-builtins": "off",
+      "no-redeclare": "off"
     }
   },
   "browserslist": [
