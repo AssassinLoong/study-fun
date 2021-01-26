@@ -14,6 +14,12 @@ class MainScene extends Phaser.Scene {
     this.load.image("ball", ball);
   }
   create() {
+    /**
+     * @function generateFrameNames
+     * @param prefix 帧数标题头
+     * @param end 多少帧
+     * @param zeroPad 多少位数，不足的补0（如果设置为2，00、01、02...）
+     */
     this.anims.create({
       key: "run",
       frames: this.anims.generateFrameNames("dogs", { prefix: "run_", end: 4, zeroPad: 2 }),
@@ -27,14 +33,32 @@ class MainScene extends Phaser.Scene {
       .play("run")
       .setScale(scaleVW(150, 150 / 240));
 
-    var block = this.add.tileSprite(100, 100, 64 * 1, 64 * 1, "ball").setScale(scaleVW(64));
-    this.physics.add.existing(block, false);
-    block.body.setVelocity(180, 180);
-    block.body.setBounce(1, 1);
-    block.body.setCollideWorldBounds(true);
+    var ball1 = this.add.tileSprite(100, 100, 64 * 1, 64 * 1, "ball").setScale(scaleVW(64));
+    /**
+     * 游戏对象添加一个街机物理体 参数：对象、是否静态
+     * 这个设置需要在下面这段代码之前
+     */
+    this.physics.add.existing(ball1, false);
+    // 代码段开始
+    ball1.body.setVelocity(180, 180);
+    ball1.body.setBounce(1, 1);
+    ball1.body.setCircle(32);
+    ball1.body.setCollideWorldBounds(true);
+    // 结束
+
+    var ball2 = this.physics.add.image(700, 240, "ball");
+
+    ball2.setScale(scaleVW(64)); // 设置缩放
+    ball2.setCircle(32); // 将此物理物体设置为使用圆而不是矩形进行碰撞。 参数：半径,x偏移量,y
+    ball2.setCollideWorldBounds(true); // 设置是否与世界边界碰撞
+    ball2.setBounce(1); // 设置反弹值（1：原速，0：不反弹）
+    ball2.setVelocity(-200, 60); // 设置物体的初始速度。 参数：x,y(正值向右移动)
+    ball2.debugShowVelocity = false; // 隐藏速度标记。
 
     this.physics.add.existing(staticBlock, true);
-    this.physics.add.collider(block, staticBlock);
+    this.physics.add.collider(ball1, staticBlock); // 设置两物体碰撞
+    this.physics.add.collider(staticBlock, ball2);
+    this.physics.add.collider(ball1, ball2);
   }
   update() {}
 }

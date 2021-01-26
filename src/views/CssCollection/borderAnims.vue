@@ -4,7 +4,11 @@
     <div class="box_2"></div>
     <div class="box_3"></div>
     <div class="box_4"></div>
-    <div class="box_5"></div>
+    <div class="box_5">
+      <div class="text">转啊转<br>指我发现秘密</div>
+    </div>
+    <div class="box_6"></div>
+    <div class="box_7"></div>
   </div>
 </template>
 
@@ -23,7 +27,8 @@ $borderColor: #03a9f3;
 .border_anims {
   display: flex;
   flex-wrap: wrap;
-  div {
+  align-items: center;
+  & > div {
     margin: 20px;
   }
   .box_1 {
@@ -156,6 +161,16 @@ $borderColor: #03a9f3;
     width: 200px;
     height: 150px;
     cursor: pointer;
+    line-height: 150px;
+
+    .text {
+      display: inline-block;
+      width: 100%;
+      // height: 100%;
+      text-align: center;
+      vertical-align: middle;
+      line-height: 20px;
+    }
 
     &::before,
     &::after {
@@ -174,8 +189,63 @@ $borderColor: #03a9f3;
       animation: clippath 3s infinite -1.5s linear;
     }
 
-    &:hover::before {
+    &:hover::before,
+    &:hover::after {
       background: rgba(255, 215, 0, 0.5);
+    }
+  }
+  .box_6 {
+    width: 200px;
+    height: 100px;
+    position: relative;
+    overflow: hidden;
+
+    &::after {
+      content: "";
+      position: absolute;
+      top: 4px;
+      bottom: 4px;
+      right: 4px;
+      left: 4px;
+      background: #67c23a;
+      border: 2px solid #fff;
+    }
+
+    &::before {
+      content: "";
+      position: absolute;
+      top: 0px;
+      bottom: 0px;
+      right: -20px;
+      left: 0px;
+      background: #67c23a;
+      //border-radius: 50%;
+      transform: rotateZ(-90deg) translate(-100%, -100%);
+      transform-origin: top left;
+      transition: transform 0.3s;
+      transition-timing-function: linear;
+    }
+
+    &:hover::before {
+      transform: rotateZ(0deg) translate(0%, -0%);
+    }
+  }
+  .box_7 {
+    width: 200px;
+    height: 100px;
+    border: 5px solid;
+    border-image: linear-gradient(135deg, gold, deeppink) 1;
+    clip-path: inset(0px round 5px);
+    animation: huerotate 6s infinite linear;
+    filter: hue-rotate(360deg);
+
+    @keyframes huerotate {
+      0% {
+        filter: hue-rotate(0deg);
+      }
+      100% {
+        filter: hue-rotate(360deg);
+      }
     }
   }
 }

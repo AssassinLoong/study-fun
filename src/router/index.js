@@ -39,6 +39,14 @@ export const CssCollectionChild = [
     mate: {
       label: "边框 制作/动画"
     }
+  },
+  {
+    path: "cutType",
+    name: "CutType",
+    component: () => import("../views/CssCollection/cutType.vue"),
+    mate: {
+      label: "剪裁方式(clip-path)"
+    }
   }
 ];
 
