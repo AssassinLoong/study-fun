@@ -126,6 +126,14 @@ export const titleRouter = [
     mate: {
       label: "swiper轮播图"
     }
+  },
+  {
+    path: "/tencentMap",
+    name: "TencentMap",
+    component: () => import("../views/tencentMap.vue"),
+    mate: {
+      label: "腾讯地图"
+    }
   }
 ];
 

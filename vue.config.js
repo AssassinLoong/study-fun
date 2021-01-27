@@ -29,5 +29,10 @@ module.exports = {
         prependData: `@import "~@/assets/css/vw.scss";`
       }
     }
+  },
+  configureWebpack: {
+    externals: {
+      TMap: "TMap"
+    }
   }
 };
