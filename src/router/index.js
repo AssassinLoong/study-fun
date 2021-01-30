@@ -134,6 +134,14 @@ export const titleRouter = [
     mate: {
       label: "腾讯地图"
     }
+  },
+  {
+    path: "/areaPicker",
+    name: "AreaPicker",
+    component: () => import("../views/areaPicker.vue"),
+    mate: {
+      label: "城市选择"
+    }
   }
 ];
 
