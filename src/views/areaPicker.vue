@@ -89,12 +89,14 @@ export default {
     },
     seachChange() {
       this.searchCityList = [];
+      if (!this.cityName) {
+        return;
+      }
       for (let i = 0; i < this.cityList.length; i++) {
         let key = this.cityList[i];
         let right = this.citySort[key].filter(item => {
           return item.name.indexOf(this.cityName) != -1;
         });
-        console.log(right, key);
         this.searchCityList.push(...right);
       }
     }
@@ -116,6 +118,7 @@ export default {
   .city_hot {
     height: vw(300);
     padding: 0 vw(20);
+    z-index: 11;
 
     .box {
       width: 100%;

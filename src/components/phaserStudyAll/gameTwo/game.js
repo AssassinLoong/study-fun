@@ -31,9 +31,9 @@ class MainScene extends Phaser.Scene {
     var staticBlock = this.add
       .sprite(calcVW(canvasW / 2 - 150), calcVW(canvasW / 2 - 150), "dogs")
       .play("run")
-      .setScale(scaleVW(150, 150 / 240));
+      .setScale(scaleVW(150 / 240));
 
-    var ball1 = this.add.tileSprite(100, 100, 64 * 1, 64 * 1, "ball").setScale(scaleVW(64));
+    var ball1 = this.add.tileSprite(100, 100, 64 * 1, 64 * 1, "ball").setScale(scaleVW());
     /**
      * 游戏对象添加一个街机物理体 参数：对象、是否静态
      * 这个设置需要在下面这段代码之前
@@ -48,7 +48,7 @@ class MainScene extends Phaser.Scene {
 
     var ball2 = this.physics.add.image(700, 240, "ball");
 
-    ball2.setScale(scaleVW(64)); // 设置缩放
+    ball2.setScale(scaleVW()); // 设置缩放
     ball2.setCircle(32); // 将此物理物体设置为使用圆而不是矩形进行碰撞。 参数：半径,x偏移量,y
     ball2.setCollideWorldBounds(true); // 设置是否与世界边界碰撞
     ball2.setBounce(1); // 设置反弹值（1：原速，0：不反弹）
@@ -105,7 +105,7 @@ function calcVW(number) {
   // return (number / 750) * canvasW;
 }
 
-function scaleVW(number, scale = 1) {
+function scaleVW(scale = 1) {
   let Imgpercent;
   Imgpercent = (canvasW / 750) * scale;
 
