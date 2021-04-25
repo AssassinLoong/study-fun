@@ -20,6 +20,14 @@ export const phaserChild = [
       label: "gameTwo"
     },
     component: () => import("@/components/phaserStudyAll/gameTwo/phaser.vue")
+  },
+  {
+    path: "gameThree",
+    name: "gameThree",
+    mate: {
+      label: "gameThree"
+    },
+    component: () => import("@/components/phaserStudyAll/gameThree/phaser.vue")
   }
 ];
 
@@ -141,6 +149,30 @@ export const titleRouter = [
     component: () => import("../views/areaPicker.vue"),
     mate: {
       label: "城市选择"
+    }
+  },
+  {
+    path: "/grid",
+    name: "Grid",
+    component: () => import("../views/grid.vue"),
+    mate: {
+      label: "Grid布局"
+    }
+  },
+  {
+    path: "/ripples",
+    name: "Ripples",
+    component: () => import("../views/ripples.vue"),
+    mate: {
+      label: "涟漪动画"
+    }
+  },
+  {
+    path: "/moveMouse",
+    name: "MoveMouse",
+    component: () => import("../views/moveMouse.vue"),
+    mate: {
+      label: "移动鼠标"
     }
   }
 ];

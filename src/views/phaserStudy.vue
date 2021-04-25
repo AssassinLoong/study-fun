@@ -1,8 +1,15 @@
 <template>
   <div class="phaser_style">
-    <div class="go-back"
-         @click="goBack">返回首页</div>
-    <PhaserPoint class="phaser-box"></PhaserPoint>
+    <div class="header"
+         :class="{'hidden_header': !showNav}">
+      <div class="go-back"
+           @click="goBack">返回首页</div>
+      <div class="nav"
+           @click="handleNav">{{ showNav ? '隐藏导航' : '显示导航' }}</div>
+    </div>
+
+    <PhaserPoint class="phaser-box"
+                 :showNav="showNav"></PhaserPoint>
   </div>
 </template>
 
@@ -13,10 +20,15 @@ export default {
     PhaserPoint
   },
   data() {
-    return {};
+    return {
+      showNav: false
+    };
   },
   mounted() {},
   methods: {
+    handleNav() {
+      this.showNav = !this.showNav;
+    },
     goBack() {
       this.$router.push({ name: "Home" });
     }
@@ -32,18 +44,34 @@ export default {
   align-items: center;
   justify-content: center;
 
-  .phaser-box {
-    flex: 1;
+  .header {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding-top: 20px;
+  }
+
+  .hidden_header {
+    position: fixed;
+    top: 0;
+  }
+
+  .nav {
+    color: lightgreen;
+    cursor: pointer;
+    margin-left: 40px;
   }
 
   .go-back {
-    display: inline-block;
     position: relative;
     color: #f56c6c;
-    padding-top: 20px;
     font-weight: 600;
-    font-size: 24px;
     cursor: pointer;
+  }
+
+  .phaser-box {
+    flex: 1;
   }
 }
 </style>

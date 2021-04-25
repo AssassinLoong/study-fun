@@ -1,7 +1,9 @@
 <template>
   <div class="phaser-point"
        ref="phaser_point">
-    <div class="aside">
+    <div class="aside"
+         :style="isColumn && 'width: 100%'"
+         v-if="showNav">
       <button class="title-link"
               v-for="(item, index) in routerList"
               :key="index"
@@ -18,17 +20,21 @@
 import { phaserChild } from "@/router";
 
 export default {
+  props: {
+    showNav: {}
+  },
   components: {},
   data() {
     return {
-      routerList: phaserChild
+      routerList: phaserChild,
+      isColumn: true
     };
   },
   mounted() {
     let winw = window.innerWidth;
     let winh = window.innerHeight;
-    let isColumn = winw < winh;
-    isColumn ? (this.$refs.phaser_point.style["flex-direction"] = "column") : (this.$refs.phaser_point.style["flex-direction"] = "");
+    this.isColumn = winw < winh;
+    this.isColumn ? (this.$refs.phaser_point.style["flex-direction"] = "column") : (this.$refs.phaser_point.style["flex-direction"] = "");
   },
   methods: {
     turnToLink(e, data) {
