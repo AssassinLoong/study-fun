@@ -25,7 +25,7 @@ section {
 }
 
 body,
-html{
+html {
   height: 100%;
 }
 
@@ -40,7 +40,7 @@ li {
 }
 
 .clear:after {
-  content: '';
+  content: "";
   clear: both;
   display: table;
 }
@@ -61,4 +61,11 @@ li {
 .fade-enter-active,
 .fade-leave-active {
   transition: opacity 0.4s ease-in-out;
+}
+
+// 图片
+.bg {
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center;
 }
