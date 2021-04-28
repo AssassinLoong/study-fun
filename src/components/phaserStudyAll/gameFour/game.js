@@ -1,21 +1,17 @@
 import random from "lodash/random";
 
-function calcVW(number) {
-  return (number / 750) * window.innerWidth;
-}
-
 const Phaser = window.Phaser;
+
+const Delay = 600;
+const Count = 6;
 
 class MainScene extends Phaser.Scene {
   constructor() {
     super({ key: "game" });
-    this.awardGraphics = null;
-    this.awardCurve = null;
-    this.awardPath = null;
+    this.awardCurve = null; // 福袋运动轨迹
+    this.linkCurve = null; // 连接器运动轨迹
 
-    this.linkGraphics = null;
-    this.linkCurve = null;
-    this.linkPath = null;
+    this.gunBodyTween = null; // 炮筒动画
   }
   preload() {
     this.load.image("gunBody", require("@/assets/images/gun/gun_body.png"));
@@ -31,27 +27,9 @@ class MainScene extends Phaser.Scene {
   }
 
   async create() {
-    console.log("create");
+    console.log("create", this.game);
 
     var y = 750 / (window.innerWidth / window.innerHeight);
-
-    this.wheelLeft = this.add
-      .image(142, 93, "wheelLeft", 0)
-      .setPosition(750 * 0.48, 860)
-      .setVisible(true);
-    this.wheelRight = this.add
-      .image(56, 73, "wheelRight", 0)
-      .setPosition(750 * 0.575, 850)
-      .setVisible(true);
-    this.gunBody = this.add
-      .image(103, 151, "gunBody", 0)
-      .setPosition(375, 810)
-      .setVisible(true);
-
-    this.rope = this.add
-      .image(750, 79, "rope", 0)
-      .setPosition(375, 190)
-      .setVisible(true);
 
     this.rope = this.add
       .image(750, 79, "rope", 0)
@@ -66,16 +44,45 @@ class MainScene extends Phaser.Scene {
     this.createAward();
     this.createLink();
 
+    this.gunInit();
+
     this.addEvent();
   }
 
+  gunInit() {
+    this.wheelLeft = this.add
+      .image(142, 93, "wheelLeft", 0)
+      .setPosition(750 * 0.48, 860)
+      .setVisible(true);
+    this.wheelRight = this.add
+      .image(56, 73, "wheelRight", 0)
+      .setPosition(750 * 0.575, 850)
+      .setVisible(true);
+    this.gunBody = this.add
+      .image(103, 151, "gunBody", 0)
+      .setPosition(375, 810 + 151 / 2)
+      .setVisible(true)
+      .setOrigin(0.5, 1);
+
+    this.gunBodyTween = this.tweens.add({
+      targets: this.gunBody,
+      paused: true,
+      scaleY: 0.7,
+      duration: 500,
+      ease: "Sine.easeInOut",
+      repeat: 0,
+      yoyo: true,
+      complete: () => {
+        console.log(4312);
+      }
+    });
+  }
+
   createAward() {
-    this.awardGraphics = this.add.graphics();
     var awardStartPoint = new Phaser.Math.Vector2(850, 216);
     var controlPoint1 = new Phaser.Math.Vector2(375, 370);
     var endPoint = new Phaser.Math.Vector2(-100, 216);
     this.awardCurve = new Phaser.Curves.QuadraticBezier(awardStartPoint, controlPoint1, endPoint);
-    this.awardPath = { t: 0, vec: new Phaser.Math.Vector2() };
 
     this.packGroup = this.add.group({
       defaultKey: "award",
@@ -85,13 +92,11 @@ class MainScene extends Phaser.Scene {
           .setSize(200, 190)
           .setName("award" + this.packGroup.getLength())
           .setScale(0.5);
-
-        console.log(award);
       }
     });
 
     var pack;
-    for (var i = 0; i < 6; i++) {
+    for (var i = 0; i < Count; i++) {
       if (i % 2 == 0) {
         pack = this.packGroup.create(0, 0, "award1");
       } else {
@@ -104,33 +109,29 @@ class MainScene extends Phaser.Scene {
         targets: pack,
         z: 1,
         ease: "Linear",
-        duration: 3600,
+        duration: Count * Delay,
         repeat: -1,
-        delay: i * 600
+        delay: i * Delay
       });
     }
   }
 
   createLink() {
-    this.linkGraphics = this.add.graphics();
     var awardStartPoint = new Phaser.Math.Vector2(850, 160);
     var controlPoint1 = new Phaser.Math.Vector2(375, 310);
     var endPoint = new Phaser.Math.Vector2(-100, 160);
     this.linkCurve = new Phaser.Curves.QuadraticBezier(awardStartPoint, controlPoint1, endPoint);
-    this.linkPath = { t: 0, vec: new Phaser.Math.Vector2() };
 
     this.linkGroup = this.add.group({
       defaultKey: "link",
       maxSize: 6,
       createCallback: link => {
         link.setSize(18, 62).setName("link" + this.linkGroup.getLength());
-
-        console.log(link, "link");
       }
     });
 
     var link;
-    for (var i = 0; i < 6; i++) {
+    for (var i = 0; i < Count; i++) {
       link = this.linkGroup.create(0, 0, "link");
 
       link.setData("vector", new Phaser.Math.Vector2());
@@ -139,9 +140,9 @@ class MainScene extends Phaser.Scene {
         targets: link,
         z: 1,
         ease: "Linear",
-        duration: 3600,
+        duration: Count * Delay,
         repeat: -1,
-        delay: i * 600
+        delay: i * Delay
       });
     }
   }
@@ -157,13 +158,12 @@ class MainScene extends Phaser.Scene {
 
   // 发球
   launchBall() {
-    console.log(this.gunBody);
+    console.log(this.gunBody, "this.gunBody");
+    console.log(this.gunBodyTween, "this.gunBodyTween");
+    this.gunBodyTween.play();
   }
 
   update() {
-    this.awardGraphics.clear();
-    this.linkGraphics.clear();
-
     var packs = this.packGroup.getChildren();
     var links = this.linkGroup.getChildren();
 
