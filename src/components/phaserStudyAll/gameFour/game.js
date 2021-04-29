@@ -5,6 +5,10 @@ const Phaser = window.Phaser;
 const Delay = 600;
 const Count = 6;
 
+// 炮筒定位
+const gunBodyX = 375;
+const gunBodyY = 810 + 151 / 2;
+
 class MainScene extends Phaser.Scene {
   constructor() {
     super({ key: "game" });
@@ -12,6 +16,9 @@ class MainScene extends Phaser.Scene {
     this.linkCurve = null; // 连接器运动轨迹
 
     this.gunBodyTween = null; // 炮筒动画
+
+    this.gunAngle = null; // 炮筒旋转角度
+    this.maxAngle = (Math.atan(gunBodyX / gunBodyY) * 180) / Math.PI; // 最大旋转角度
   }
   preload() {
     this.load.image("gunBody", require("@/assets/images/gun/gun_body.png"));
@@ -41,6 +48,13 @@ class MainScene extends Phaser.Scene {
       .setPosition(375, 800)
       .setVisible(true);
 
+    // this.ball = this.physics.add
+    //   .image(64, 64, "ball", 0)
+    //   .setPosition(375, 800)
+    //   .setVisible(true)
+    //   .setCollideWorldBounds(true)
+    //   .setBounce(1);
+
     this.createAward();
     this.createLink();
 
@@ -60,7 +74,7 @@ class MainScene extends Phaser.Scene {
       .setVisible(true);
     this.gunBody = this.add
       .image(103, 151, "gunBody", 0)
-      .setPosition(375, 810 + 151 / 2)
+      .setPosition(gunBodyX, gunBodyY)
       .setVisible(true)
       .setOrigin(0.5, 1);
 
@@ -73,7 +87,7 @@ class MainScene extends Phaser.Scene {
       repeat: 0,
       yoyo: true,
       complete: () => {
-        console.log(4312);
+        console.log(this.ball, "ball");
       }
     });
   }
@@ -153,7 +167,16 @@ class MainScene extends Phaser.Scene {
   }
 
   handleTouch = e => {
-    // console.log(e.x, e.y);
+    let activeX = e.x;
+    let activeY = e.y;
+
+    let gunDeg = (Math.atan((activeX - gunBodyX) / (gunBodyY - activeY)) * 180) / Math.PI;
+    let deg = gunDeg > 0 ? Math.min(gunDeg, this.maxAngle) : Math.max(gunDeg, -this.maxAngle);
+
+    if (activeY < gunBodyY) {
+      this.gunBody.setAngle(deg);
+      // this.wheelLeft.setX(this.wheelLeft.getBottomLeft().x + (deg * 750) / 800); // x轴一直在改变
+    }
   };
 
   // 发球
@@ -197,7 +220,14 @@ const game = {
       canvasStyle: "width:100%",
       transparent: true,
       // backgroundColor: 'transparent',
-      scene: [MainScene]
+      scene: [MainScene],
+      physics: {
+        default: "arcade",
+        arcade: {
+          debug: true,
+          gravity: { y: 200 }
+        }
+      }
     });
   },
   fire: () => {
