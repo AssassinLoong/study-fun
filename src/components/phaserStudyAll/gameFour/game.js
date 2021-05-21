@@ -2,8 +2,8 @@ import random from "lodash/random";
 
 const Phaser = window.Phaser;
 
-const Delay = 600;
-const Count = 6;
+const Delay = 600; // 福袋速度
+const Count = 6; // 福袋数量
 
 // 绳子定位
 const ropeY = 190;
@@ -33,7 +33,10 @@ class MainScene extends Phaser.Scene {
 
     this.gunAngle = 0; // 炮筒旋转角度
     this.maxAngle = (Math.atan(gunBodyX / (gunBodyY - ropeY)) * 180) / Math.PI; // 最大旋转角度
+
+    this.canLaunch = true; // 是否能发炮
   }
+
   preload() {
     this.load.image("gunBody", require("@/assets/images/gun/gun_body.png"));
     this.load.image("wheelLeft", require("@/assets/images/gun/wheel_left.png"));
@@ -50,18 +53,10 @@ class MainScene extends Phaser.Scene {
   async create() {
     console.log("create", this.game);
 
-    var y = 750 / (window.innerWidth / window.innerHeight);
-
     this.rope = this.add
       .image(750, 79, "rope", 0)
       .setPosition(375, ropeY)
       .setVisible(true);
-
-    // this.ball = this.add
-    //   .image(64, 64, "ball", 0)
-    //   .setPosition(ballX, ballY)
-    //   .setVisible(true)
-    //   .setDepth(1);
 
     this.ball = this.physics.add
       .image(64, 64, "ball", 0)
@@ -98,6 +93,7 @@ class MainScene extends Phaser.Scene {
       .setVisible(true)
       .setOrigin(0.5, 1);
 
+    // 点击发射 炮筒动画
     this.gunBodyTween = this.tweens.add({
       targets: this.gunBody,
       paused: true,
@@ -121,6 +117,7 @@ class MainScene extends Phaser.Scene {
 
   // 创建福袋
   createAward() {
+    // 设置运动路径
     var awardStartPoint = new Phaser.Math.Vector2(850, 216);
     var controlPoint1 = new Phaser.Math.Vector2(375, 370);
     var endPoint = new Phaser.Math.Vector2(-100, 216);
@@ -154,7 +151,11 @@ class MainScene extends Phaser.Scene {
         ease: "Linear",
         duration: Count * Delay,
         repeat: -1,
-        delay: i * Delay
+        delay: i * Delay,
+        onRepeat: (event, obj) => {
+          // 走到尽头 重置为可见
+          obj.setVisible(true);
+        }
       });
     }
   }
@@ -226,11 +227,77 @@ class MainScene extends Phaser.Scene {
   colliderCb = (obj1, obj2) => {
     this.ball.setVisible(false).setPosition(ballX, ballY); // 显示球
 
-    console.log(obj2);
+    const { texture, x, y, displayOriginX, displayOriginY, width, height, scale } = obj2;
+    this.createFakeAward({
+      key: texture.key,
+      x,
+      y,
+      width,
+      height,
+      scale
+    });
+
+    obj2.setVisible(false);
   };
 
+  // 创建假的福袋
+  createFakeAward(info) {
+    const { key, x, y, width, height, scale } = info;
+
+    this.fakeAward = this.add
+      .image(width, height, key)
+      .setPosition(x, y + height / 2)
+      .setOrigin(0.5, 1)
+      .setScale(scale);
+
+    this.tweens.timeline({
+      targets: this.fakeAward,
+      ease: "Linear",
+      totalDuration: 1000,
+      tweens: [
+        {
+          originX: 0.5,
+          originY: 1,
+          x: gunBodyX,
+          y: gunBodyY,
+          scale: 1
+        }
+        // {
+        //   scale: 1,
+        //   alpha: 0
+        // }
+        // {
+        //   scale: 1,
+        //   alpha: 0
+        // }
+      ],
+      onComplete: (tween, obj) => {
+        if (game._lottery && typeof game._lottery === "function") {
+          game._lottery({
+            width,
+            height,
+            x,
+            y
+          });
+        }
+
+        // 福袋透明
+        this.tweens.add({
+          targets: this.fakeAward,
+          ease: "Linear",
+          duration: 1000,
+          alpha: 0
+        });
+      }
+    });
+  }
+
   // 发球
-  launchBall() {
+  _launchBall() {
+    if (!this.canLaunch) {
+      return;
+    }
+    this.canLaunch = false;
     this.gunBodyTween.play();
   }
 
@@ -263,11 +330,9 @@ const game = {
       type: Phaser.CANVAS,
       width: 750,
       height: 1206,
-      // height: 750 / ratio,
       canvas: canvas,
       canvasStyle: "width:100%",
       transparent: true,
-      // backgroundColor: 'transparent',
       scene: [MainScene],
       physics: {
         default: "arcade",
@@ -278,8 +343,15 @@ const game = {
       }
     });
   },
+  // 初始化抽奖次数
+  setLotteryCount: count => {
+    gameIns.scene.getScene("game").lotteryCount = count;
+  },
   fire: () => {
-    gameIns.scene.getScene("game").launchBall();
+    gameIns.scene.getScene("game")._launchBall();
+  },
+  resetGun: () => {
+    gameIns.scene.getScene("game").canLaunch = true;
   },
   restart: () => {
     gameIns.scene.getScene("game").scene.restart({

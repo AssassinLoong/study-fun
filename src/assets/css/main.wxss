@@ -1,3 +1,4 @@
+@charset "UTF-8";
 body,
 p,
 h1,
@@ -63,7 +64,6 @@ li {
   transition: opacity 0.4s ease-in-out;
 }
 
-// 图片
 .bg {
   background-size: cover;
   background-repeat: no-repeat;
@@ -74,10 +74,12 @@ li {
   left: 50%;
   transform: translateX(-50%);
 }
+
 .tr-y {
   top: 50%;
   transform: translateY(-50%);
 }
+
 .tr-xy {
   left: 50%;
   top: 50%;

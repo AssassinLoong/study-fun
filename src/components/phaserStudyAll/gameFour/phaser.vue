@@ -8,6 +8,13 @@
 
       <canvas ref="canvas"></canvas>
     </div>
+
+    <div class="dialog bg tr-xy"
+         v-if="showDialog">
+      <div class="text">没中奖</div>
+      <div class="btn bg tr-x"
+           @click="closeDialog"></div>
+    </div>
   </div>
 </template>
 
@@ -16,17 +23,26 @@ import game from "./game.js";
 export default {
   components: {},
   data() {
-    return {};
+    return {
+      showDialog: false
+    };
   },
   mounted() {
     this.$nextTick(() => {
       game.launch(this.$refs.canvas);
-      game.count = 2;
+      game._lottery = this.lottery; // 传入抽奖方法 击中福袋后调用
     });
   },
   methods: {
     launchBall() {
       game.fire();
+    },
+    lottery(conf) {
+      this.showDialog = true;
+    },
+    closeDialog() {
+      this.showDialog = false;
+      game.resetGun(); // 重置炮台 允许发球
     }
   }
 };
@@ -74,5 +90,30 @@ export default {
   top: vw(955);
   left: 50%;
   transform: translateX(-50%);
+}
+
+.dialog {
+  width: vw(606);
+  height: vw(493);
+  background-image: url("~@/assets/images/gun/series_day_bg.png");
+  position: absolute;
+
+  .text {
+    font-size: vw(40);
+    font-weight: bold;
+    color: red;
+    width: 100%;
+    text-align: center;
+    position: absolute;
+    top: vw(150);
+  }
+
+  .btn {
+    background-image: url("~@/assets/images/gun/btn_again.png");
+    width: vw(352);
+    height: vw(106);
+    position: absolute;
+    bottom: vw(100);
+  }
 }
 </style>
