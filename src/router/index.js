@@ -36,6 +36,14 @@ export const phaserChild = [
       label: "gameFour"
     },
     component: () => import("@/components/phaserStudyAll/gameFour/phaser.vue")
+  },
+  {
+    path: "gameFive",
+    name: "gameFive",
+    mate: {
+      label: "gameFive"
+    },
+    component: () => import("@/components/phaserStudyAll/gameFive/index.vue")
   }
 ];
 

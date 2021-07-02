@@ -1,17 +1,35 @@
 <template>
   <div class="import-excel">
-    <div style="color: red;height: 30px;margin-top:10px;">打开控制台，看详细表格解析数据</div>
-    <input class="file-upload"
-           ref="questionFile"
-           type="file"
-           accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet,application/vnd.ms-excel"
-           @change="changeFile">
+    <!-- <div style="color: red;height: 30px;margin-top:10px;">打开控制台，看详细表格解析数据</div> -->
+    <!-- <input type="text"> -->
+    <a class="downloadFile"
+       href="./ExcelTemplate.xlsx"
+       download="ExcelTemplate.xlsx">下载模板</a>
+
+    <div class="file-upload">
+      <div class="label">选择上传文件</div>
+      <input ref="questionFile"
+             type="file"
+             accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet,application/vnd.ms-excel"
+             @change="changeFile">
+    </div>
 
     <div class="list">
-      <img class="list-img"
-           v-for="(item,index) in imageArr"
-           :key="index"
-           :src="item">
+      <div class="container"
+           v-for="(item,index) in excelData"
+           :key="index">
+        <div class="content"
+             v-for="(data, ii) in item"
+             :key="ii">
+          <img class="images"
+               v-if="(''+data).match(/(http|https):\/\/([\w.]+\/?)\S*/ig)"
+               :src="data">
+          <div v-else>{{data}}</div>
+        </div>
+        <!-- <img class="list-img"
+             :src="imageArr[item]">
+        <div class="text">{{item | handleImgName}}</div> -->
+      </div>
     </div>
   </div>
 </template>
@@ -25,7 +43,8 @@ export default {
   components: {},
   data() {
     return {
-      imageArr: {}
+      imageArr: {},
+      excelData: []
     };
   },
   mounted() {},
@@ -69,6 +88,8 @@ export default {
             this.imageArr = imageArr;
             const data = excel.getData();
             console.log(data);
+
+            this.excelData = data[0].data;
 
             alert("上传成功");
           })
@@ -116,14 +137,53 @@ export default {
           });
       });
     }
+  },
+  filters: {
+    handleImgName(val) {
+      return val.split("-")[0];
+    }
   }
 };
 </script>
 <style lang="scss" scoped>
 .import-excel {
-  .list-img {
-    width: 200px;
-    // height: 100px;
+  width: 100%;
+  height: 100%;
+  overflow: auto;
+
+  .downloadFile {
+    display: block;
+    margin: 20px;
+  }
+
+  .file-upload {
+    margin-left: 20px;
+
+    .label {
+      color: red;
+    }
+  }
+
+  .list {
+    display: flex;
+    flex-direction: column;
+  }
+  .container {
+    width: 100%;
+    height: 25vw;
+    line-height: 25vw;
+    position: relative;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+  }
+  .content {
+    width: 33vw;
+    text-align: center;
+  }
+  .images {
+    width: 20vw;
+    height: 20vw;
     background-repeat: no-repeat;
     background-position: center;
     background-size: cover;

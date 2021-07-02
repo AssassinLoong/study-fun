@@ -29,13 +29,16 @@ export default {
   },
   mounted() {
     this.$nextTick(() => {
-      game.launch(this.$refs.canvas);
+      game.launch(this.$refs.canvas, {
+        width: 750, // canvas大小
+        height: 1206
+      });
       game._lottery = this.lottery; // 传入抽奖方法 击中福袋后调用
     });
   },
   methods: {
     launchBall() {
-      game.fire();
+      game.fire(); // 发球
     },
     lottery(conf) {
       this.showDialog = true;

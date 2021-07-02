@@ -78,7 +78,7 @@ export let loginApi = params => {
 
 // OSS
 export let OSS = params => {
-  return axios.get("/oss/sign", {
+  return axios.get("/oss/aliyun/sign", {
     params
   });
 };

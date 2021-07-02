@@ -325,11 +325,11 @@ let gameIns = null;
 const ratio = window.innerWidth / window.innerHeight;
 
 const game = {
-  launch: canvas => {
+  launch: (canvas, conf) => {
     gameIns = new Phaser.Game({
       type: Phaser.CANVAS,
-      width: 750,
-      height: 1206,
+      width: conf.width,
+      height: conf.height,
       canvas: canvas,
       canvasStyle: "width:100%",
       transparent: true,
@@ -347,9 +347,11 @@ const game = {
   setLotteryCount: count => {
     gameIns.scene.getScene("game").lotteryCount = count;
   },
+  // 发球
   fire: () => {
     gameIns.scene.getScene("game")._launchBall();
   },
+  // 重置炮台 允许发球
   resetGun: () => {
     gameIns.scene.getScene("game").canLaunch = true;
   },

@@ -50,6 +50,7 @@ export default {
     justify-content: center;
     align-items: center;
     padding-top: 20px;
+    z-index: 999;
   }
 
   .hidden_header {

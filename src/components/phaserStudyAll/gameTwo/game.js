@@ -1,17 +1,21 @@
 const Phaser = window.Phaser;
 import dog from "@/assets/images/dog.png";
+import go from "@/assets/images/go.png";
 import ball from "@/assets/images/ball.png";
 import configJson from "./game.json";
+import goJson from "./go.json";
 
 let canvasW, canvasH;
 
 class MainScene extends Phaser.Scene {
   constructor() {
     super({ key: "Main" });
+    this.a = 0;
   }
   preload() {
     this.load.atlas("dogs", dog, configJson);
     this.load.image("ball", ball);
+    this.load.atlas("goes", go, goJson);
   }
   create() {
     /**
@@ -20,7 +24,7 @@ class MainScene extends Phaser.Scene {
      * @param end 多少帧
      * @param zeroPad 多少位数，不足的补0（如果设置为2，00、01、02...）
      */
-    this.anims.create({
+    this.dog = this.anims.create({
       key: "run",
       frames: this.anims.generateFrameNames("dogs", { prefix: "run_", end: 4, zeroPad: 2 }),
       frameRate: 4,
@@ -28,10 +32,25 @@ class MainScene extends Phaser.Scene {
       yoyo: true
     });
 
+    this.go = this.anims.create({
+      key: "go",
+      frames: this.anims.generateFrameNames("goes", { prefix: "go_", end: 4, zeroPad: 2 }),
+      frameRate: 1.5,
+      repeat: 0,
+      hideOnComplete: true
+    });
+
     var staticBlock = this.add
       .sprite(calcVW(canvasW / 2 - 150), calcVW(canvasW / 2 - 150), "dogs")
       .play("run")
       .setScale(scaleVW(150 / 240));
+
+    this.add
+      .sprite(calcVW(canvasW / 2 - 150), calcVW(canvasW / 2 - 150), "dogs")
+      .play("go")
+      .addListener("complete", function() {
+        console.log(1234);
+      });
 
     var ball1 = this.add.tileSprite(100, 100, 64 * 1, 64 * 1, "ball").setScale(scaleVW());
     /**

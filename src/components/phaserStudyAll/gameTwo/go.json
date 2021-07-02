@@ -1,0 +1,47 @@
+{
+  "textures": [
+    {
+      "image": "go.png",
+      "format": "RGBA8888",
+      "size": {
+        "w": 2256,
+        "h": 378
+      },
+      "scale": 0.2,
+      "frames": [
+        {
+          "filename": "go_00",
+          "frame": { "x": 0, "y": 0, "w": 564, "h": 378 },
+          "rotated": false,
+          "trimmed": true,
+          "spriteSourceSize": { "x": 0, "y": 0, "w": 564, "h": 378 },
+          "sourceSize": { "w": 564, "h": 378 }
+        },
+        {
+          "filename": "go_01",
+          "frame": { "x": 564, "y": 0, "w": 564, "h": 378 },
+          "rotated": false,
+          "trimmed": true,
+          "spriteSourceSize": { "x": 0, "y": 0, "w": 564, "h": 378 },
+          "sourceSize": { "w": 564, "h": 378 }
+        },
+        {
+          "filename": "go_02",
+          "frame": { "x": 1128, "y": 0, "w": 564, "h": 378 },
+          "rotated": false,
+          "trimmed": true,
+          "spriteSourceSize": { "x": 0, "y": 0, "w": 564, "h": 378 },
+          "sourceSize": { "w": 564, "h": 378 }
+        },
+        {
+          "filename": "go_03",
+          "frame": { "x": 1692, "y": 0, "w": 564, "h": 378 },
+          "rotated": false,
+          "trimmed": true,
+          "spriteSourceSize": { "x": 0, "y": 0, "w": 564, "h": 378 },
+          "sourceSize": { "w": 564, "h": 378 }
+        }
+      ]
+    }
+  ]
+}

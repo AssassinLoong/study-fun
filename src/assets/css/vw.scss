@@ -1,3 +1,11 @@
 @function vw($x, $vpw: 750) {
   @return ($x / $vpw * 100) * 1vw;
 }
+
+@mixin bg($x, $w: 0, $h: 0) {
+  background-image: url("~@/assets/"+$x);
+  @if ($w != 0 and $h !=0) {
+    width: vw($w);
+    height: vw($h);
+  }
+}
